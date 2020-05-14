@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     // 주문 조회
-    @RequestMapping(path = "/{orderId", method = RequestMethod.GET)
+    @RequestMapping(path = "/{orderId}", method = RequestMethod.GET)
     public ResponseEntity<GetOrderResponse> getOrder(@PathVariable long orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
         return order.map(o -> new ResponseEntity<>(makeGetOrderResponse(o), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
