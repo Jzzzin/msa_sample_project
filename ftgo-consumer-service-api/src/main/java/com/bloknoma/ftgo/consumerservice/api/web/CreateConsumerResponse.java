@@ -1,6 +1,6 @@
 package com.bloknoma.ftgo.consumerservice.api.web;
 
-// 고객 생성 응답?
+// 고객 생성 응답
 public class CreateConsumerResponse {
     private long consumerId;
 

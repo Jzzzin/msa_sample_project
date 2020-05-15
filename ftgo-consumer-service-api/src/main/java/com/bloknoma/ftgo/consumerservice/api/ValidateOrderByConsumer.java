@@ -6,7 +6,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-// 고객 주문 검증 커맨드?
+// 고객 주문 검증 커맨드
 public class ValidateOrderByConsumer implements Command {
 
     private long consumerId;

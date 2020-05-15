@@ -3,4 +3,6 @@ dependencies {
     compile "io.eventuate.tram.sagas:eventuate-tram-sagas-participant:$eventuateTramSagasVersion"
     compile project(":ftgo-common")
 
+    // consumerCreated event
+    compile "io.eventuate.tram.core:eventuate-tram-events:$eventuateTramVersion"
 }

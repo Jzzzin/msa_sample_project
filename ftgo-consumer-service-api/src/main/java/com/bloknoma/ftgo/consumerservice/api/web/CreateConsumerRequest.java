@@ -2,7 +2,7 @@ package com.bloknoma.ftgo.consumerservice.api.web;
 
 import com.bloknoma.ftgo.common.PersonName;
 
-// 고객 생성 요청?
+// 고객 생성 요청
 public class CreateConsumerRequest {
     private PersonName name;
 
