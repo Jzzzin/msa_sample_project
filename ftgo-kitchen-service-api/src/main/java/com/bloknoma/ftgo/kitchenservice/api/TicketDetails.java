@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.List;
 
-// 티켓 세부 정보?
+// 티켓 목록 정보
 public class TicketDetails {
     private List<TicketLineItem> lineItems;
 

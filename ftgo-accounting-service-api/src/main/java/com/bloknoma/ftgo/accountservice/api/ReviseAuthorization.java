@@ -3,7 +3,7 @@ package com.bloknoma.ftgo.accountservice.api;
 import com.bloknoma.ftgo.common.Money;
 import io.eventuate.tram.commands.common.Command;
 
-// 주문 수정 승인?
+// 주문 수정 승인
 public class ReviseAuthorization implements Command {
     private long consumerId;
     private Long orderid;

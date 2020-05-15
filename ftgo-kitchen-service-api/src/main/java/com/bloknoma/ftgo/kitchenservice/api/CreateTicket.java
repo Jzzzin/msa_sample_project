@@ -4,7 +4,7 @@ import io.eventuate.tram.commands.CommandDestination;
 import io.eventuate.tram.commands.common.Command;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-// 티켓 생성 커맨드?
+// 티켓 생성 커맨드
 @CommandDestination("restaurantService")
 public class CreateTicket implements Command {
 

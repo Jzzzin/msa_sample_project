@@ -44,7 +44,7 @@ dependencyManagement {
 //    }
 //}
 
-//compileTestGroovy.enabled=false
+compileTestGroovy.enabled=false
 
 //componentTest.dependsOn(assemble)
 
@@ -140,7 +140,11 @@ dependencies {
     testCompile "io.eventuate.util:eventuate-util-test:$eventuateUtilVersion"
     testCompile "io.eventuate.tram.core:eventuate-tram-test-util:$eventuateTramVersion"
 
+    testCompile "io.eventuate.tram.core:eventuate-tram-testing-support-spring-cloud-contract:$eventuateTramVersion"
+
     testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-in-memory:$eventuateTramSagasVersion"
+    testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-testing-support:$eventuateTramSagasVersion"
+
     testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 
 //    // Added this stuff
@@ -153,9 +157,6 @@ dependencies {
     testCompile "io.rest-assured:spring-mock-mvc:3.0.6"
     testCompile "io.rest-assured:json-path:3.0.6"
 
-    testCompile "io.eventuate.tram.core:eventuate-tram-testing-support-spring-cloud-contract:$eventuateTramVersion"
-
-    testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-testing-support:$eventuateTramSagasVersion"
 
 //    componentTestCompile "info.cukes:cucumber-java:1.2.5"
 //    componentTestCompile "info.cukes:cucumber-junit:1.2.5"
