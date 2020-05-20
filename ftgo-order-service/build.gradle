@@ -21,7 +21,7 @@ apply plugin: 'spring-cloud-contract'
 apply plugin: 'docker-compose'
 apply plugin: 'com.google.protobuf'
 
-//apply plugin: IntegrationTestsPlugin
+apply plugin: IntegrationTestsPlugin
 //apply plugin: ComponentTestsPlugin
 
 dependencyManagement {
@@ -30,19 +30,19 @@ dependencyManagement {
     }
 }
 
-//contracts {
-//    contractsDsiDir = new File("../ftgo-order-service-contracts/src/main/resources/contracts")
-//    packageWithBaseClasses = 'com.bloknoma.ftgo.orderservice.contract'
-//    generatedTestSourcesDir = project.file("${project.buildDir}/generated-integration-test-sources/contracts")
-//}
+contracts {
+    contractsDslDir = new File("../ftgo-order-service-contracts/src/main/resources/contracts")
+    packageWithBaseClasses = 'com.bloknoma.ftgo.orderservice.contract'
+    generatedTestSourcesDir = project.file("${project.buildDir}/generated-integration-test-sources/contracts")
+}
 
-//sourceSets {
-//    integrationTest {
-//        java {
-//            srcDir project.file("${project.buildDir}/generated-integration-test-sources/contracts")
-//        }
-//    }
-//}
+sourceSets {
+    integrationTest {
+        java {
+            srcDir project.file("${project.buildDir}/generated-integration-test-sources/contracts")
+        }
+    }
+}
 
 compileTestGroovy.enabled=false
 
@@ -76,7 +76,7 @@ compileTestGroovy.enabled=false
 
 protobuf {
     protoc {
-        // Download from repositories
+        // Download from repositoriesp
         artifact = 'com.google.protobuf:protoc:3.0.0'
     }
     plugins {
@@ -99,8 +99,10 @@ apply plugin: 'idea'
 
 idea {
     module {
-        sourceDirs += file("${projectDir}/build/generated/source/proto/main/java");
-        sourceDirs += file("${projectDir}/build/generated/source/proto/main/grpc");
+        sourceDirs += file("${projectDir}/build/generated/source/proto/main/java")
+        sourceDirs += file("${projectDir}/build/generated/source/proto/main/grpc")
+        // 테스트 소스 디렉토리 설정 추가
+        testSourceDirs += file("${projectDir}/src/integration-test/java")
     }
 }
 
@@ -150,9 +152,9 @@ dependencies {
 //    // Added this stuff
 //    testCompile "com.bloknoma.ftgo:ftgo-accounting-service-contracts:unspecified:stubs"
 //    testCompile "com.bloknoma.ftgo:ftgo-consumer-service-contracts:unspecified:stubs"
-//    testCompile "com.bloknoma.ftgo:ftgo-kitchen-service-contracts:unspecified:stubs"
-//    testCompile "org.springframework.cloud:spring-cloud-contract-wiremock"
-//    testCompile "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
+    testCompile "com.bloknoma.ftgo:ftgo-kitchen-service-contracts:unspecified:stubs"
+    testCompile "org.springframework.cloud:spring-cloud-contract-wiremock"
+    testCompile "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
     testCompile "io.rest-assured:rest-assured:3.0.6"
     testCompile "io.rest-assured:spring-mock-mvc:3.0.6"
     testCompile "io.rest-assured:json-path:3.0.6"
@@ -161,6 +163,6 @@ dependencies {
 //    componentTestCompile "info.cukes:cucumber-java:1.2.5"
 //    componentTestCompile "info.cukes:cucumber-junit:1.2.5"
 //    componentTestCompile "info.cukes:cucumber-spring:1.2.5"
-//    testCompileProject(":ftgo-test-util")
-//
+    testCompile project(":ftgo-test-util")
+
 }

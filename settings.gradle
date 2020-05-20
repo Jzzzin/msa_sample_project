@@ -3,9 +3,11 @@ include 'common-swagger'
 include 'ftgo-common'
 include 'ftgo-common-jpa'
 
-include 'ftgo-order-service'
+include 'ftgo-test-util'
 
 include 'ftgo-order-service-api'
+include 'ftgo-order-service'
+include 'ftgo-order-service-contracts'
 
 include 'ftgo-kitchen-service-api'
 include 'ftgo-kitchen-service'
@@ -22,4 +24,5 @@ include 'ftgo-restaurant-service'
 include 'ftgo-order-history-service'
 
 include 'ftgo-api-gateway'
+include 'ftgo-kitchen-service-contracts'
 

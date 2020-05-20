@@ -20,6 +20,7 @@ import static com.bloknoma.ftgo.orderservice.RestaurantMother.CHICKEN_VINDALOO_P
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
+// unit test
 public class OrderTest {
 
     private ResultWithDomainEvents<Order, OrderDomainEvent> createResult;

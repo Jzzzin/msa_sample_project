@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+// unit test
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = KitchenServiceMemoryIntegrationTest.TestConfiguration.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

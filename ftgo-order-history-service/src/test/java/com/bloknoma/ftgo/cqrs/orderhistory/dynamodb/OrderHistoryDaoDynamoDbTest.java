@@ -27,6 +27,7 @@ import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
+// integration test - dynamoDB
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {OrderHistoryDaoDynamoDbTest.OrderHistoryDaoDynamoDbTestConfiguration.class})
 public class OrderHistoryDaoDynamoDbTest {

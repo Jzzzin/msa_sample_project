@@ -14,6 +14,7 @@ import static io.eventuate.tram.testing.DomainEventHandlerUnitTestSupport.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+// unit test
 public class OrderEventConsumerTest {
 
     private OrderService orderService;

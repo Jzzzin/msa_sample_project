@@ -12,3 +12,9 @@ CMD java ${JAVA_OPTS} -Djava.library.path=. -jar DynamoDBLocal.jar -dbPath /var/
 으로 변경한다
 
 5. docker-compose 전에 gradlew assemble 로 jar 빌드한다
+
+6. contract 테스트 전에 contracts 모듈에서 gradlew publish 해서 stubs.jar를 생성해야 한다
+
+7. 별도의 test sourceSet 디렉토리를 사용하는 경우 gradle 에서 idea 플러그인으로 
+modules 에 testSourceDirs += file("${projectDir}/src/integration-test/java") 처럼 
+테스트 소스 디렉토리를 추가해야 인텔리J에서 바로 테스트 실행이 가능하다

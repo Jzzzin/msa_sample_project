@@ -16,6 +16,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+// unit test
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApiGatewayIntegrationTestConfiguration.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
