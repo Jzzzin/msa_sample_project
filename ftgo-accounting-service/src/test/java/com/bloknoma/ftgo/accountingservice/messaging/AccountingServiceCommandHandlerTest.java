@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+// unit test
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AccountingServiceCommandHandlerTest.AccountingServiceCommandHandlerTestConfiguration.class)
 public class AccountingServiceCommandHandlerTest {

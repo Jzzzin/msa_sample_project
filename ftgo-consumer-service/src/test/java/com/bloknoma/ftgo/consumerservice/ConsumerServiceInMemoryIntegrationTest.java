@@ -28,6 +28,7 @@ import java.util.Collections;
 import static com.jayway.restassured.RestAssured.given;
 import static org.junit.Assert.assertNotNull;
 
+// unit test
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ConsumerServiceInMemoryIntegrationTest.TestConfiguration.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

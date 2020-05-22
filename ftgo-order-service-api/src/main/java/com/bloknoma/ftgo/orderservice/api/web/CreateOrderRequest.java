@@ -5,16 +5,16 @@ import java.util.List;
 // 주문 생성 요청?
 public class CreateOrderRequest {
 
-    private long restaurantId;
     private long consumerId;
+    private long restaurantId;
     private List<LineItem> lineItems;
 
     private CreateOrderRequest() {
     }
 
-    public CreateOrderRequest(long restaurantId, long consumerId, List<LineItem> lineItems) {
-        this.restaurantId = restaurantId;
+    public CreateOrderRequest(long consumerId, long restaurantId, List<LineItem> lineItems) {
         this.consumerId = consumerId;
+        this.restaurantId = restaurantId;
         this.lineItems = lineItems;
     }
 

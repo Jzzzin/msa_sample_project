@@ -2,7 +2,7 @@
 
 echo Initializing DynamoDB at endpoint ${AWS_DYNAMODB_ENDPOINT_URL}
 
-if aws dynamodb --region us-west-1 --endpoint-url ${AWS_DYNAMODB_ENDPOINT_URL?} describe-table --table-name ftgo-order-history ; then
+if aws dynamodb --region us-west-2 --endpoint-url ${AWS_DYNAMODB_ENDPOINT_URL?} describe-table --table-name ftgo-order-history ; then
     echo table exists
 else
 

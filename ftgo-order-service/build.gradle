@@ -22,7 +22,7 @@ apply plugin: 'docker-compose'
 apply plugin: 'com.google.protobuf'
 
 apply plugin: IntegrationTestsPlugin
-//apply plugin: ComponentTestsPlugin
+apply plugin: ComponentTestsPlugin
 
 dependencyManagement {
     imports {
@@ -46,33 +46,33 @@ sourceSets {
 
 compileTestGroovy.enabled=false
 
-//componentTest.dependsOn(assemble)
+componentTest.dependsOn(assemble)
 
-//dockerCompose {
-//
-//    startedServices = [ 'not-used']
-//
-//    integrationTests {
-//        if (System.getenv("FTGO_DOCKER_COMPOSE_FILES") != null)
-//            useComposeFiles = System.getenv("FTGO_DOCKER_COMPOSE_FILES").split(",").collect { "../" + it }
-//
-//        startedServices = [ 'mysql']
-//        stopContainers = true
-//    }
-//
-//    componentTests {
-//        if (System.getenv("FTGO_DOCKER_COMPOSE_FILES") != null)
-//            useComposeFiles = System.getenv("FTGO_DOCKER_COMPOSE_FILES").split(",").collect { "../" + it }
-//
-//        startedServices = [ 'ftgo-order-service']
-//        //forceRecreate = true
-//        stopContainers = true
-//    }
-//}
+dockerCompose {
 
-//integrationTests.dependsOn(integrationTestsComposeUp)
+    startedServices = [ 'not-used']
 
-//componentTest.dependsOn(componentTestsComposeUp)
+    integrationTests {
+        if (System.getenv("FTGO_DOCKER_COMPOSE_FILES") != null)
+            useComposeFiles = System.getenv("FTGO_DOCKER_COMPOSE_FILES").split(",").collect { "../" + it }
+
+        startedServices = [ 'mysql']
+        stopContainers = true
+    }
+
+    componentTests {
+        if (System.getenv("FTGO_DOCKER_COMPOSE_FILES") != null)
+            useComposeFiles = System.getenv("FTGO_DOCKER_COMPOSE_FILES").split(",").collect { "../" + it }
+
+        startedServices = [ 'ftgo-order-service']
+        //forceRecreate = true
+        stopContainers = true
+    }
+}
+
+integrationTest.dependsOn(integrationTestsComposeUp)
+
+componentTest.dependsOn(componentTestsComposeUp)
 
 protobuf {
     protoc {
@@ -103,6 +103,7 @@ idea {
         sourceDirs += file("${projectDir}/build/generated/source/proto/main/grpc")
         // 테스트 소스 디렉토리 설정 추가
         testSourceDirs += file("${projectDir}/src/integration-test/java")
+        testSourceDirs += file("${projectDir}/src/component-test/java")
     }
 }
 
@@ -115,8 +116,6 @@ dependencies {
     compile "io.eventuate.tram.core:eventuate-tram-jdbc-kafka:$eventuateTramVersion"
     compile "io.eventuate.tram.core:eventuate-tram-commands:$eventuateTramVersion"
 
-    compile "io.eventuate.tram.core:eventuate-tram-messaging:$eventuateTramVersion"
-
     compile "io.eventuate.tram.sagas:eventuate-tram-sagas-simple-dsl:$eventuateTramSagasVersion"
 
     compile project(":ftgo-accounting-service-api")
@@ -128,9 +127,9 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
     compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "javax.el:javax.el-api:2.2.5"
 
     compile "io.micrometer:micrometer-registry-prometheus:$micrometerVersion"
-    compile "javax.el:javax.el-api:2.2.5"
 
     compile "io.grpc:grpc-netty:${grpcVersion}"
     compile "io.grpc:grpc-protobuf:${grpcVersion}"
@@ -138,20 +137,18 @@ dependencies {
 
     compile "io.microservices.tools.canvas:microservice-canvas-springmvc:$microserviceCanvasVersion"
     compile "io.microservices.tools.canvas:microservice-canvas-extractor-tram-sagas:$microserviceCanvasVersion"
+    compile "io.eventuate.tram.core:eventuate-tram-messaging:$eventuateTramVersion"
 
     testCompile "io.eventuate.util:eventuate-util-test:$eventuateUtilVersion"
     testCompile "io.eventuate.tram.core:eventuate-tram-test-util:$eventuateTramVersion"
 
-    testCompile "io.eventuate.tram.core:eventuate-tram-testing-support-spring-cloud-contract:$eventuateTramVersion"
-
     testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-in-memory:$eventuateTramSagasVersion"
-    testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-testing-support:$eventuateTramSagasVersion"
-
     testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
 
-//    // Added this stuff
-//    testCompile "com.bloknoma.ftgo:ftgo-accounting-service-contracts:unspecified:stubs"
-//    testCompile "com.bloknoma.ftgo:ftgo-consumer-service-contracts:unspecified:stubs"
+    // Added this stuff
+
+    testCompile "com.bloknoma.ftgo:ftgo-accounting-service-contracts:unspecified:stubs"
+    testCompile "com.bloknoma.ftgo:ftgo-consumer-service-contracts:unspecified:stubs"
     testCompile "com.bloknoma.ftgo:ftgo-kitchen-service-contracts:unspecified:stubs"
     testCompile "org.springframework.cloud:spring-cloud-contract-wiremock"
     testCompile "org.springframework.cloud:spring-cloud-starter-contract-stub-runner"
@@ -159,10 +156,14 @@ dependencies {
     testCompile "io.rest-assured:spring-mock-mvc:3.0.6"
     testCompile "io.rest-assured:json-path:3.0.6"
 
+    testCompile "io.eventuate.tram.core:eventuate-tram-testing-support-spring-cloud-contract:$eventuateTramVersion"
 
-//    componentTestCompile "info.cukes:cucumber-java:1.2.5"
-//    componentTestCompile "info.cukes:cucumber-junit:1.2.5"
-//    componentTestCompile "info.cukes:cucumber-spring:1.2.5"
+    testCompile "io.eventuate.tram.sagas:eventuate-tram-sagas-testing-support:$eventuateTramSagasVersion"
+
+    componentTestCompile "info.cukes:cucumber-java:1.2.5"
+    componentTestCompile "info.cukes:cucumber-junit:1.2.5"
+    componentTestCompile "info.cukes:cucumber-spring:1.2.5"
+
     testCompile project(":ftgo-test-util")
 
 }

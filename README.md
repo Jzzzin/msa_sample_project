@@ -18,3 +18,11 @@ CMD java ${JAVA_OPTS} -Djava.library.path=. -jar DynamoDBLocal.jar -dbPath /var/
 7. 별도의 test sourceSet 디렉토리를 사용하는 경우 gradle 에서 idea 플러그인으로 
 modules 에 testSourceDirs += file("${projectDir}/src/integration-test/java") 처럼 
 테스트 소스 디렉토리를 추가해야 인텔리J에서 바로 테스트 실행이 가능하다
+
+8. gradle 에서 sourceSet 을 여러개 구성하여 사용하는 경우 gradle setting 에서 
+create separate module per sourceset 을 체크하자
+
+9. component test는 gradlew :ftgo-order-service:componentTest 로 실행하면
+dockerCompose를 실행시킨뒤 테스트 진행 한다.
+
+10. component test 후 docker-compose down -v 로 도커를 내려야 teardown 된다
