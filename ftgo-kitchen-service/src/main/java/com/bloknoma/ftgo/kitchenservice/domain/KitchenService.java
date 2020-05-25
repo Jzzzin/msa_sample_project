@@ -90,9 +90,9 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 취소
         List<TicketDomainEvent> events = ticket.cancel();
         // 이벤트 발행
@@ -104,9 +104,9 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 취소 확인
         List<TicketDomainEvent> events = ticket.confirmCancel();
         // 이벤트 발행
@@ -118,9 +118,9 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 취소 언두
         List<TicketDomainEvent> events = ticket.undoCancel();
         // 이벤트 발행
@@ -132,11 +132,11 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 변경
-        List<TicketDomainEvent> events = ticket.undoBeginReviseOrder();
+        List<TicketDomainEvent> events = ticket.beginReviseOrder(revisedLineItemQuantities);
         // 이벤트 발행
         domainEventPublisher.publish(ticket, events);
     }
@@ -146,9 +146,9 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 변경 언두
         List<TicketDomainEvent> events = ticket.undoBeginReviseOrder();
         // 이벤트 발행
@@ -160,9 +160,9 @@ public class KitchenService {
         // 티켓 조회
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new TicketNotFoundException(ticketId));
-        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // TODO - verify restaurant id - 레스토랑을 조회 해올 필요 까지는 없을 것 같은뎀 / 레스토랑 ID를 안넘겨서 에러남
+//        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+//                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
         // 티켓 변경 확인
         List<TicketDomainEvent> events = ticket.confirmReviseTicket(revisedLineItemQuantities);
         // 이벤트 발행

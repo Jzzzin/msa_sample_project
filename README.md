@@ -26,3 +26,5 @@ create separate module per sourceset 을 체크하자
 dockerCompose를 실행시킨뒤 테스트 진행 한다.
 
 10. component test 후 docker-compose down -v 로 도커를 내려야 teardown 된다
+
+11. end to end test는 gradlew :ftgo-end-to-end-tests:cleanTest :ftgo-end-to-end-tests:test 로 실행한다
