@@ -18,3 +18,4 @@ Feature: Place Order
     When I place an order for Chicken Vindaloo at Ajanta
     Then the order should be REJECTED
     And an OrderRejected event should be published
+

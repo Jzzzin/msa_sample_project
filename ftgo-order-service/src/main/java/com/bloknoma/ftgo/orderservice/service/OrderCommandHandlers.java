@@ -47,7 +47,7 @@ public class OrderCommandHandlers {
     // 주문 거절
     public Message rejectOrder(CommandMessage<RejectOrderCommand> cm) {
         long orderId = cm.getCommand().getOrderId();
-        orderService.approveOrder(orderId);
+        orderService.rejectOrder(orderId);
         return withSuccess();
     }
 

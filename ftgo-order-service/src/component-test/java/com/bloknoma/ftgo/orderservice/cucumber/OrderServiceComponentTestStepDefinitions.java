@@ -14,6 +14,7 @@ import com.bloknoma.ftgo.orderservice.domain.Order;
 import com.bloknoma.ftgo.orderservice.domain.repository.RestaurantRepository;
 import com.bloknoma.ftgo.restaurantservice.events.RestaurantCreated;
 import com.bloknoma.ftgo.testutil.FtgoTestUtil;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -26,7 +27,8 @@ import io.eventuate.tram.sagas.testing.SagaParticipantStubManager;
 import io.eventuate.tram.sagas.testing.SagaParticipantStubManagerConfiguration;
 import io.eventuate.tram.testing.MessageTracker;
 import io.restassured.response.Response;
-import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -52,6 +54,8 @@ import static org.junit.Assert.fail;
 @SpringBootTest(classes = OrderServiceComponentTestStepDefinitions.TestConfiguration.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @ContextConfiguration
 public class OrderServiceComponentTestStepDefinitions {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     private Response response;
     private long consumerId;
@@ -144,7 +148,7 @@ public class OrderServiceComponentTestStepDefinitions {
                 .forChannel("kitchenService")
                 .when(CreateTicket.class).replyWith(cm -> withSuccess(new CreateTicketReply(cm.getCommand().getOrderId())))
                 .when(ConfirmCreateTicket.class).replyWithSuccess()
-                .when(CancelCreateTicket.class).replyWithFailure();
+                .when(CancelCreateTicket.class).replyWithSuccess();
 
         // 레스토랑 확인
         if (!restaurantRepository.findById(RestaurantMother.AJANTA_ID).isPresent()) {
@@ -165,8 +169,8 @@ public class OrderServiceComponentTestStepDefinitions {
         response = given()
                 .body(new CreateOrderRequest(consumerId,
                         RestaurantMother.AJANTA_ID,
-                        Collections.singletonList( new CreateOrderRequest.LineItem(RestaurantMother.CHICKEN_VINDALOO_MENU_ITEM_ID,
-                                                                                   OrderDetailsMother.CHICKEN_VINDALOO_QUANTITY))))
+                        Collections.singletonList(new CreateOrderRequest.LineItem(RestaurantMother.CHICKEN_VINDALOO_MENU_ITEM_ID,
+                                OrderDetailsMother.CHICKEN_VINDALOO_QUANTITY))))
                 .contentType("application/json")
                 .when()
                 .post(baseUrl("/orders"));
