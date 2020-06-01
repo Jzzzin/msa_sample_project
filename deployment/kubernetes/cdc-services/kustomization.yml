@@ -1,0 +1,4 @@
+resources:
+#  - eventuate-local-cdc-service.yml
+#  - ftgo-tram-cdc-service.yml
+  - ftgo-cdc-service.yml

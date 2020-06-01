@@ -1,0 +1,82 @@
+apiVersion: v1
+kind: Service # 객체 종류 - 서비스
+metadata:
+  name: ftgo-restaurant-service  # 서비스명 (DNS명)
+spec:
+  ports:
+  - port: 8080 # 외부포트
+    targetPort: 8080 # 컨테이너 포트
+  selector:
+    svc: ftgo-restaurant-service # 컨테이너
+---
+#apiVersion: extensions/v1beta1
+apiVersion: apps/v1
+kind: Deployment # 객체 종류 - 디플로이먼트
+metadata:
+  name: ftgo-restaurant-service # 배포명
+  labels:
+    application: ftgo # application 라벨
+    svc: ftgo-restaurant-service # svc 라벨
+spec:
+  selector: # 디플로이먼트에 셀렉터 추가해야 됨
+    matchLabels:
+      svc: ftgo-restaurant-service
+  replicas: 1 # 파드 레플리카 개수
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        application: ftgo # application 파드 라벨
+        svc: ftgo-restaurant-service # svc 파드 라벨
+    spec: # 파드 명세
+      containers:
+      - name: ftgo-restaurant-service
+        image: jzzzin/ftgo-restaurant-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080 # 컨테이너 포트
+          name: httpport
+        env: # 컨테이너 환경 변수
+          - name: JAVA_OPTS
+            value: "-Dsun.net.inetaddr.ttl=30"
+#          - name: SPRING_DATASOURCE_URL
+#            value: jdbc:mysql://ftgo-mysql/eventuate
+#          - name: SPRING_DATASOURCE_USERNAME
+#            valueFrom:
+#              secretKeyRef:
+#                name: ftgo-db-secret # 쿠버네티스 시크릿
+#                key: username
+#          - name: SPRING_DATASOURCE_PASSWORD
+#            valueFrom:
+#              secretKeyRef:
+#                name: ftgo-db-secret
+#                key: password
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://ftgo-mysql/ftgo_restaurant_service
+          - name: SPRING_DATASOURCE_USERNAME
+            value: ftgo_restaurant_service_user
+          - name: SPRING_DATASOURCE_PASSWORD
+            value: ftgo_restaurant_service_password
+          - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+            value: com.mysql.jdbc.Driver
+          - name: EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS
+            value: ftgo-kafka:9092
+          - name: EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING
+            value: ftgo-zookeeper:2181
+          - name: EVENTUATE_DATABASE_SCHEMA
+            value: ftgo_restaurant_service
+        livenessProbe: # 재시작 여부 헬스 체크 엔드포인트 구성
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20
+        readinessProbe: # 라우팅 여부 헬스 체크
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 20
+---

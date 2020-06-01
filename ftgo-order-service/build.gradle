@@ -65,8 +65,11 @@ dockerCompose {
             useComposeFiles = System.getenv("FTGO_DOCKER_COMPOSE_FILES").split(",").collect { "../" + it }
 
         startedServices = [ 'ftgo-order-service']
-        //forceRecreate = true
+        //forceRecreate = false
         stopContainers = true
+
+        // skip waiting for tcp port open
+        waitForTcpPorts = false
     }
 }
 

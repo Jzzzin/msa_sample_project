@@ -1,0 +1,7 @@
+resources:
+  - ftgo-db-secret.yml
+  - ftgo-dynamodb-local.yml
+#  - ftgo-kafka-config.yml
+  - ftgo-kafka-deployment.yml
+  - ftgo-mysql-deployment.yml
+  - ftgo-zookeeper-deployment.yml

@@ -1,0 +1,8 @@
+resources:
+  - ./ftgo-accounting-service/src/deployment/kubernetes/ftgo-accounting-service.yml
+  - ./ftgo-api-gateway/src/deployment/kubernetes/ftgo-api-gateway.yml
+  - ./ftgo-consumer-service/src/deployment/kubernetes/ftgo-consumer-service.yml
+  - ./ftgo-kitchen-service/src/deployment/kubernetes/ftgo-kitchen-service.yml
+  - ./ftgo-order-history-service/src/deployment/kubernetes/ftgo-order-history-service.yml
+  - ./ftgo-order-service/src/deployment/kubernetes/ftgo-order-service.yml
+  - ./ftgo-restaurant-service/src/deployment/kubernetes/ftgo-restaurant-service.yml
