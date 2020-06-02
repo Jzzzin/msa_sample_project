@@ -4,11 +4,13 @@ import com.bloknoma.ftgo.common.CommonJsonMapperInitializer;
 import com.bloknoma.ftgo.common.Money;
 import com.bloknoma.ftgo.common.PersonName;
 import com.bloknoma.ftgo.consumerservice.api.web.CreateConsumerRequest;
+import com.bloknoma.ftgo.orderservice.api.events.OrderState;
 import com.bloknoma.ftgo.orderservice.api.web.CreateOrderRequest;
 import com.bloknoma.ftgo.orderservice.api.web.ReviseOrderRequest;
 import com.bloknoma.ftgo.restaurantservice.events.CreateRestaurantRequest;
 import com.bloknoma.ftgo.restaurantservice.events.MenuItem;
 import com.bloknoma.ftgo.restaurantservice.events.RestaurantMenu;
+import com.bloknoma.ftgo.testutil.FtgoTestUtil;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
@@ -24,6 +26,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+// End to End test
 public class EndToEndTests {
 
     // TODO Move to a shared module
@@ -32,7 +35,7 @@ public class EndToEndTests {
     public static final String RESTAURANT_NAME = "My Restaurant";
 
     private final int revisedQuantityOfChickenVindaloo = 10;
-    private String host = System.getenv("DOCKER_HOST_IP");
+    private String host = FtgoTestUtil.getDockerHostIp();
     private int consumerId;
     private int restaurantId;
     private int orderId;
@@ -153,6 +156,8 @@ public class EndToEndTests {
         cancelOrder(orderId);
 
         verifyOrderCancelled(orderId);
+
+        verifyOrderHistoryUpdated(orderId, consumerId, OrderState.CANCELLED.name());
     }
 
     private void verifyOrderCancelled(int orderId) {
@@ -194,7 +199,7 @@ public class EndToEndTests {
 
         verifyOrderAuthorized(orderId);
 
-        verifyOrderHistoryUpdated(orderId, consumerId);
+        verifyOrderHistoryUpdated(orderId, consumerId, OrderState.APPROVED.name());
     }
 
     private Integer createConsumer() {
@@ -282,7 +287,7 @@ public class EndToEndTests {
         });
     }
 
-    private void verifyOrderHistoryUpdated(int orderId, int consumerId) {
+    private void verifyOrderHistoryUpdated(int orderId, int consumerId, String expectedState) {
         Eventually.eventually(String.format("verifyOrderHistoryUpdated %s", orderId), () -> {
             String state = given()
                     .when()
@@ -292,7 +297,7 @@ public class EndToEndTests {
                     .body("orders[0].restaurantName", equalTo(RESTAURANT_NAME))
                     .extract()
                     .path("orders[0].status"); // TODO state?
-            assertNotNull(state);
+            assertEquals(expectedState, state);
         });
     }
 

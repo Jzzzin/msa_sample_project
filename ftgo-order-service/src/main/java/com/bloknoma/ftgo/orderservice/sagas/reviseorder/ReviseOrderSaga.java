@@ -8,7 +8,7 @@ import com.bloknoma.ftgo.kitchenservice.api.KitchenServiceChannels;
 import com.bloknoma.ftgo.kitchenservice.api.UndoBeginReviseTicketCommand;
 import com.bloknoma.ftgo.orderservice.api.OrderServiceChannels;
 import com.bloknoma.ftgo.orderservice.sagaparticipants.BeginReviseOrderCommand;
-import com.bloknoma.ftgo.orderservice.sagaparticipants.BeginRiviseOrderReply;
+import com.bloknoma.ftgo.orderservice.sagaparticipants.BeginReviseOrderReply;
 import com.bloknoma.ftgo.orderservice.sagaparticipants.ConfirmReviseOrderCommand;
 import com.bloknoma.ftgo.orderservice.sagaparticipants.UndoBeginReviseOrderCommand;
 import io.eventuate.tram.commands.consumer.CommandWithDestination;
@@ -32,7 +32,7 @@ public class ReviseOrderSaga implements SimpleSaga<ReviseOrderSagaData> {
     public void initializeSagaDefinition() {
         sagaDefinition = step()
                     .invokeParticipant(this::beginReviseOrder)
-                    .onReply(BeginRiviseOrderReply.class, this::handleBeginReviseOrderReply)
+                    .onReply(BeginReviseOrderReply.class, this::handleBeginReviseOrderReply)
                     .withCompensation(this::undoBeginReviseOrder)
                 .step()
                     .invokeParticipant(this::beginReviseTicket)
@@ -89,7 +89,7 @@ public class ReviseOrderSaga implements SimpleSaga<ReviseOrderSagaData> {
     }
 
     // 주문 수정 응답 처리
-    private void handleBeginReviseOrderReply(ReviseOrderSagaData data, BeginRiviseOrderReply reply) {
+    private void handleBeginReviseOrderReply(ReviseOrderSagaData data, BeginReviseOrderReply reply) {
         logger.info("ƒ order total: {}", reply.getRevisedOrderTotal());
         data.setRevisedOrderTotal(reply.getRevisedOrderTotal());
     }

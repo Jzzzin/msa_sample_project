@@ -84,3 +84,9 @@ docker-compose 구성으로 맞춘다
 ./docker-compose build
 DOCKER_USER_ID=??? DOCKER_PASSWORD=??? ./publish-docker-image.sh
 20번 순서대로 실행
+
+23. docker 이미지를 alpine linux 를 설치하는 경우 bash 가 설치되어 있지 않기 때문에
+쉘 스크립트에 #! /bin/bash 사용하면 에러나므로 #! /bin/sh 사용해야 된다
+
+24. integrationTest 시 gradlew :ftgo-order-service:integrationTest, 
+gradlew :ftgo-order-history-service:integrationTest 실행 후 docker-compose down -v 로 도커 이미지를 내린다

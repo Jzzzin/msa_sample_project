@@ -21,7 +21,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: LC
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_BROKER_ID: 2
+#      KAFKA_BROKER_ID: 2
 #      - ADVERTISED_HOST_NAME=${DOCKER_HOST_IP?DOCKER_HOST_IP must be set}
 #      - KAFKA_HEAP_OPTS=-Xmx192m -Xms192m
 #      - ZOOKEEPER_SERVERS=zookeeper:2181
@@ -101,11 +101,11 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_DATABASE_SCHEMA: ftgo_consumer_service
       JAVA_OPTS: -Xmx192m
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-      EVENTUATE_DATABASE_SCHEMA: ftgo_consumer_service
   ftgo-order-service:
     build: ./ftgo-order-service
     ports:
@@ -123,11 +123,11 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_DATABASE_SCHEMA: ftgo_order_service
       JAVA_OPTS: -Xmx192m
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-      EVENTUATE_DATABASE_SCHEMA: ftgo_order_service
   ftgo-kitchen-service:
     build: ./ftgo-kitchen-service
     ports:
@@ -145,11 +145,11 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_DATABASE_SCHEMA: ftgo_kitchen_service
       JAVA_OPTS: -Xmx192m
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-      EVENTUATE_DATABASE_SCHEMA: ftgo_kitchen_service
   ftgo-restaurant-service:
     build: ./ftgo-restaurant-service
     ports:
@@ -167,11 +167,11 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_DATABASE_SCHEMA: ftgo_restaurant_service
       JAVA_OPTS: -Xmx192m
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-      EVENTUATE_DATABASE_SCHEMA: ftgo_restaurant_service
   ftgo-accounting-service:
     build: ./ftgo-accounting-service
     ports:
@@ -189,11 +189,11 @@ services:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
       EVENTUATELOCAL_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       EVENTUATELOCAL_ZOOKEEPER_CONNECTION_STRING: zookeeper:2181
+      EVENTUATE_DATABASE_SCHEMA: ftgo_accounting_service
       JAVA_OPTS: -Xmx192m
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-      EVENTUATE_DATABASE_SCHEMA: ftgo_accounting_service
   ftgo-order-history-service:
     build: ./ftgo-order-history-service
     ports:
@@ -228,15 +228,6 @@ services:
       SPRING_SLEUTH_ENABLED: "true"
       SPRING_SLEUTH_SAMPLER_PROBABILITY: 1
       SPRING_ZIPKIN_BASE_URL: http://zipkin:9411/
-
-  ftgo-api-gateway-graphql:
-    build: ./ftgo-api-gateway-graphql
-    ports:
-      - "8088:3000"
-    environment:
-      ORDER_HISTORY_SERVICE_URL: http://ftgo-order-history-service:8080
-      CONSUMER_SERVICE_URL: http://ftgo-consumer-service:8080
-      RESTAURANT_SERVICE_URL: http://ftgo-restaurant-service:8080
 
   zipkin:
     image: openzipkin/zipkin:2.5.0

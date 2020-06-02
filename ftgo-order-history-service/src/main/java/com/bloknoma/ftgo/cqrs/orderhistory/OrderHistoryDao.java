@@ -2,6 +2,7 @@ package com.bloknoma.ftgo.cqrs.orderhistory;
 
 import com.bloknoma.ftgo.cqrs.orderhistory.dynamodb.Order;
 import com.bloknoma.ftgo.cqrs.orderhistory.dynamodb.SourceEvent;
+import com.bloknoma.ftgo.orderservice.api.events.OrderState;
 
 import java.util.Optional;
 
@@ -11,9 +12,7 @@ public interface OrderHistoryDao {
 
     boolean addOrder(Order order, Optional<SourceEvent> eventSource);
 
-    public boolean cancelOrder(String orderId, Optional<SourceEvent> eventSource);
-
-    Optional<Order> findOrder(String orderId);
+    boolean updateOrderState(String orderId, OrderState newState, Optional<SourceEvent> eventSource);
 
     void noteTicketPreparationStarted(String orderId);
 
@@ -24,4 +23,6 @@ public interface OrderHistoryDao {
     void updateLocation(String orderId, Location location);
 
     void noteDelivered(String orderId);
+
+    Optional<Order> findOrder(String orderId);
 }

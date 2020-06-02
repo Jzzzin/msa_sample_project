@@ -3,13 +3,13 @@ package com.bloknoma.ftgo.orderservice.sagaparticipants;
 import com.bloknoma.ftgo.common.Money;
 
 // 주문 수정 시작 응답?
-public class BeginRiviseOrderReply {
+public class BeginReviseOrderReply {
     private Money revisedOrderTotal;
 
-    public BeginRiviseOrderReply() {
+    public BeginReviseOrderReply() {
     }
 
-    public BeginRiviseOrderReply(Money revisedOrderTotal) {
+    public BeginReviseOrderReply(Money revisedOrderTotal) {
         this.revisedOrderTotal = revisedOrderTotal;
     }
 

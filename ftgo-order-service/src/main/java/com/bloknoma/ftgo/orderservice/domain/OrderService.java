@@ -173,7 +173,7 @@ public class OrderService {
     }
 
     // 주문 변경 확인
-    public void confrimRevision(long orderId, OrderRevision revision) {
+    public void confirmRevision(long orderId, OrderRevision revision) {
         updateOrder(orderId, order -> order.confirmRevision(revision));
     }
 

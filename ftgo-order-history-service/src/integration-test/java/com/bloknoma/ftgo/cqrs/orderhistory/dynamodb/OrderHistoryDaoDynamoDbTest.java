@@ -87,7 +87,8 @@ public class OrderHistoryDaoDynamoDbTest {
     // 중복 업데이트 방지
     @Test
     public void shouldIgnoreDuplicateAdd() {
-        dao.cancelOrder(orderId, Optional.empty());
+        // 주문 취소
+        dao.updateOrderState(orderId, OrderState.CANCELLED, Optional.empty());
         assertFalse(dao.addOrder(order1, eventSource));
         Optional<Order> order = dao.findOrder(orderId);
         assertEquals(OrderState.CANCELLED, order.get().getStatus());
@@ -121,7 +122,7 @@ public class OrderHistoryDaoDynamoDbTest {
     // 주문 취소
     @Test
     public void shouldCancel() throws InterruptedException {
-        dao.cancelOrder(orderId, Optional.of(new SourceEvent("a", "b", "c")));
+        dao.updateOrderState(orderId, OrderState.CANCELLED, Optional.of(new SourceEvent("a", "b", "c")));
         Order order = dao.findOrder(orderId).get();
         assertEquals(OrderState.CANCELLED, order.getStatus());
     }
@@ -129,8 +130,8 @@ public class OrderHistoryDaoDynamoDbTest {
     // 주문 중복 취소
     @Test
     public void shouldHandleCancel() throws InterruptedException {
-        assertTrue(dao.cancelOrder(orderId, Optional.of(new SourceEvent("a", "b", "c"))));
-        assertFalse(dao.cancelOrder(orderId, Optional.of(new SourceEvent("a", "b", "c"))));
+        assertTrue(dao.updateOrderState(orderId, OrderState.CANCELLED, Optional.of(new SourceEvent("a", "b", "c"))));
+        assertFalse(dao.updateOrderState(orderId, OrderState.CANCELLED, Optional.of(new SourceEvent("a", "b", "c"))));
     }
 
     // 취소 주문 조회
@@ -182,8 +183,8 @@ public class OrderHistoryDaoDynamoDbTest {
     @Test
     public void shouldPaginateResults() {
         // 주문 추가
-        String orderid2 = "orderId" + System.currentTimeMillis();
-        Order order2 = new Order(orderid2, consumerId, OrderState.APPROVAL_PENDING, singletonList(new OrderLineItem("-1", "Lamb 65", Money.ZERO, -1)), null, restaurantId, restaurantName);
+        String orderId2 = "orderId" + System.currentTimeMillis();
+        Order order2 = new Order(orderId2, consumerId, OrderState.APPROVAL_PENDING, singletonList(new OrderLineItem("-1", "Lamb 65", Money.ZERO, -1)), null, restaurantId, restaurantName);
         order2.setCreationDate(DateTime.now().minusDays(1));
         dao.addOrder(order2, eventSource);
 

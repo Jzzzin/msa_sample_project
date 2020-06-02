@@ -81,7 +81,7 @@ public class OrderCommandHandlers {
         long orderId = cm.getCommand().getOrderId();
         OrderRevision revision = cm.getCommand().getRevision();
         try {
-            return orderService.beginReviseOrder(orderId, revision).map(result -> withSuccess(new BeginRiviseOrderReply(result.getChange().getNewOrderTotal()))).orElseGet(CommandHandlerReplyBuilder::withFailure);
+            return orderService.beginReviseOrder(orderId, revision).map(result -> withSuccess(new BeginReviseOrderReply(result.getChange().getNewOrderTotal()))).orElseGet(CommandHandlerReplyBuilder::withFailure);
         } catch (UnsupportedStateTransitionException e) {
             return withFailure();
         }
@@ -98,7 +98,7 @@ public class OrderCommandHandlers {
     public Message confirmRevision(CommandMessage<ConfirmReviseOrderCommand> cm) {
         long orderId = cm.getCommand().getOrderId();
         OrderRevision revision = cm.getCommand().getRevision();
-        orderService.confrimRevision(orderId, revision);
+        orderService.confirmRevision(orderId, revision);
         return withSuccess();
     }
 }

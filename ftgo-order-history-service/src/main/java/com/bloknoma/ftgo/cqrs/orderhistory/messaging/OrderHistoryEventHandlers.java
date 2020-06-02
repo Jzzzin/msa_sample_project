@@ -5,8 +5,7 @@ import com.bloknoma.ftgo.cqrs.orderhistory.Location;
 import com.bloknoma.ftgo.cqrs.orderhistory.OrderHistoryDao;
 import com.bloknoma.ftgo.cqrs.orderhistory.dynamodb.Order;
 import com.bloknoma.ftgo.cqrs.orderhistory.dynamodb.SourceEvent;
-import com.bloknoma.ftgo.orderservice.api.events.OrderCreatedEvent;
-import com.bloknoma.ftgo.orderservice.api.events.OrderState;
+import com.bloknoma.ftgo.orderservice.api.events.*;
 import io.eventuate.tram.events.subscriber.DomainEventEnvelope;
 import io.eventuate.tram.events.subscriber.DomainEventHandlers;
 import io.eventuate.tram.events.subscriber.DomainEventHandlersBuilder;
@@ -37,6 +36,9 @@ public class OrderHistoryEventHandlers {
         return DomainEventHandlersBuilder
                 .forAggregateType("com.bloknoma.ftgo.orderservice.domain.Order")
                 .onEvent(OrderCreatedEvent.class, this::handleOrderCreated)
+                .onEvent(OrderAuthorized.class, this::handleOrderAuthorized)
+                .onEvent(OrderCancelled.class, this::handleOrderCancelled)
+                .onEvent(OrderRejected.class, this::handleOrderRejected)
 //                .onEvent(DeliveryPickedUp.class, this::handleDeliveryPickedUp)
                 .build();
     }
@@ -61,6 +63,27 @@ public class OrderHistoryEventHandlers {
                 event.getOrderDetails().getOrderTotal(),
                 event.getOrderDetails().getRestaurantId(),
                 event.getRestaurantName());
+    }
+
+    // 주문 승인
+    public void handleOrderAuthorized(DomainEventEnvelope<OrderAuthorized> dee) {
+        logger.debug("handleOrderAuthorized called {}", dee);
+        boolean result = orderHistoryDao.updateOrderState(dee.getAggregateId(), OrderState.APPROVED, makeSourceEvent(dee));
+        logger.debug("handleOrderAuthorized result {} {}", dee, result);
+    }
+
+    // 주문 취소
+    public void handleOrderCancelled(DomainEventEnvelope<OrderCancelled> dee) {
+        logger.debug("handleOrderCancelled called {}", dee);
+        boolean result = orderHistoryDao.updateOrderState(dee.getAggregateId(), OrderState.CANCELLED, makeSourceEvent(dee));
+        logger.debug("handleOrderCancelled result {} {}", dee, result);
+    }
+
+    // 주문 거절
+    public void handleOrderRejected(DomainEventEnvelope<OrderRejected> dee) {
+        logger.debug("handleOrderRejected called {}", dee);
+        boolean result = orderHistoryDao.updateOrderState(dee.getAggregateId(), OrderState.REJECTED, makeSourceEvent(dee));
+        logger.debug("handleOrderRejected result {} {}", dee, result);
     }
 
     // 배달 픽업

@@ -1,6 +1,5 @@
-package com.bloknoma.ftgo.orderservice.domain.event;
+package com.bloknoma.ftgo.orderservice.api.events;
 
-import com.bloknoma.ftgo.orderservice.api.events.OrderDomainEvent;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 

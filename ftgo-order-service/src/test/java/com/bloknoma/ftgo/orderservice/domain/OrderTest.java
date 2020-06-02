@@ -4,7 +4,7 @@ import com.bloknoma.ftgo.orderservice.RestaurantMother;
 import com.bloknoma.ftgo.orderservice.api.events.OrderCreatedEvent;
 import com.bloknoma.ftgo.orderservice.api.events.OrderDomainEvent;
 import com.bloknoma.ftgo.orderservice.api.events.OrderState;
-import com.bloknoma.ftgo.orderservice.domain.event.OrderAuthorized;
+import com.bloknoma.ftgo.orderservice.api.events.OrderAuthorized;
 import com.bloknoma.ftgo.orderservice.domain.value.OrderRevision;
 import io.eventuate.tram.events.aggregates.ResultWithDomainEvents;
 import org.junit.Before;

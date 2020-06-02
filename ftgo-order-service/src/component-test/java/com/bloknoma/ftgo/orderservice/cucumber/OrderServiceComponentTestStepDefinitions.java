@@ -39,6 +39,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.bloknoma.ftgo.orderservice.RestaurantMother.AJANTA_RESTAURANT_MENU;
@@ -65,7 +66,7 @@ public class OrderServiceComponentTestStepDefinitions {
     }
 
     private int port = 8082;
-    private String host = System.getenv("DOCKER_HOST_IP");
+    private String host =FtgoTestUtil.getDockerHostIp();
 
     protected String baseUrl(String path) {
         return String.format("http://%s:%s%s", host, port, path);
@@ -213,7 +214,18 @@ public class OrderServiceComponentTestStepDefinitions {
     @And("an (.*) event should be published")
     public void verifyEventPublished(String expectedEventClass) {
         messageTracker.assertDomainEventPublished("com.bloknoma.ftgo.orderservice.domain.Order",
-                "com.bloknoma.ftgo.orderservice.domain.event." + expectedEventClass);
+                findEventClass(expectedEventClass, "com.bloknoma.ftgo.orderservice.domain.event", "com.bloknoma.ftgo.orderservice.api.events"));
+    }
+
+    private String findEventClass(String expectedEventClass, String... packages) {
+        return Arrays.stream(packages).map(p -> p + "." + expectedEventClass).filter(className -> {
+            try {
+                Class.forName(className);
+                return true;
+            } catch (ClassNotFoundException e) {
+                return false;
+            }
+        }).findFirst().orElseThrow(() -> new RuntimeException(String.format("Cannot find class %s in packages %s", expectedEventClass, String.join(",", packages))));
     }
 
 }
