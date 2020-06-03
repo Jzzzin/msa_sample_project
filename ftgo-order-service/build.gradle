@@ -58,6 +58,9 @@ dockerCompose {
 
         startedServices = [ 'mysql']
         stopContainers = true
+
+        // skip waiting for tcp port open
+        waitForTcpPorts = false
     }
 
     componentTests {

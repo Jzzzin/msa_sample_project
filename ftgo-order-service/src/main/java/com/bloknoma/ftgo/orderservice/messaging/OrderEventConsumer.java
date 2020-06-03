@@ -7,9 +7,13 @@ import com.bloknoma.ftgo.restaurantservice.events.RestaurantMenuRevised;
 import io.eventuate.tram.events.subscriber.DomainEventEnvelope;
 import io.eventuate.tram.events.subscriber.DomainEventHandlers;
 import io.eventuate.tram.events.subscriber.DomainEventHandlersBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // 이벤트 메시지 컨슈머
 public class OrderEventConsumer {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private OrderService orderService;
 

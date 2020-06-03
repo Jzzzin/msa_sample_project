@@ -29,7 +29,8 @@ spec:
     spec:
       containers:
       - name: ftgo-dynamodb-local
-        image: cnadiminti/dynamodb-local:2017-04-22_beta
+        image: amazon/dynamodb-local:1.11.477
+#        image: cnadiminti/dynamodb-local:2017-04-22_beta
         livenessProbe:
           tcpSocket:
             port: 8000

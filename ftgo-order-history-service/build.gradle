@@ -70,6 +70,9 @@ dockerCompose {
 
         startedServices = ['dynamodblocal', 'dynamodblocal-init']
         stopContainers = true
+
+        // skip waiting for tcp port open
+        waitForTcpPorts = false
     }
 }
 

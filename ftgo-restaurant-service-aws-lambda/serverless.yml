@@ -1,0 +1,36 @@
+service: ftgo-application-lambda
+
+provider:
+  name: aws # 배포 플랫폼 이름
+  runtime: java8
+  timeout: 35
+  region: ${env:AWS_REGION}
+  stage: dev
+  environment: # 환경변수
+    SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
+    SPRING_DATASOURCE_URL: ${env:AWS_RDS_JDBC_URL}
+    SPRING_DATASOURCE_USERNAME: ${env:AWS_RDS_JDBC_USER_ID}
+    SPRING_DATASOURCE_PASSWORD: ${env:AWS_RDS_JDBC_USER_PASSWORD}
+  vpc:
+    securityGroupIds:
+      - ${AWS_RDS_SECURITY_GROUP_ID}
+    subnetIds:
+      - ${AWS_RDS_SECURITY_VPC_ID}
+
+package: # zip 파일
+  artifact: build/distributions/ftgo-restaurant-service-aws-lambda.zip
+
+
+functions: # 람다 함수 정의
+  create-restaurant:
+    handler: com.bloknoma.ftgo.restaurantservice.lambda.CreateRestaurantRequestHandler
+    events:
+      - http:
+          path: restaurants
+          method: post
+  find-restaurant:
+    handler: com.bloknoma.ftgo.restaurantservice.lambda.FindRestaurantRequestHandler
+    events:
+      - http:
+          path: restaurants/{restaurantId}
+          method: get

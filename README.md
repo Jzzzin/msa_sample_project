@@ -44,18 +44,19 @@ dockerCompose를 실행시킨뒤 테스트 진행 한다.
 kubectl delete jobs/ftgo-dynamodb-local-init
 
 17. 쿠버네티스 kafka 실행하기 위해 image 버전을 latest로 변경 
->>> kafka, zookeeper 버전이 달라져서 변경 테스트 중
+kafka, zookeeper 버전이 달라져서 변경 테스트 중
 
 18. sh 스크립트를 batch 스크립트로 일일이 변환하는데 한계가 있어서 wsl ubuntu 에서 실행하기로 결정
->>> wsl version 1 에서 쿠버네티스 실행이 안되서 wsl version 2로 업그레이드 
->>> wsl version 2 에서 도커 환경 설정 값이 달라짐 
->>> Expose daemon on tcp://localhost:2375 사용하지 않고 
+wsl version 1 에서 쿠버네티스 실행이 안되서 wsl version 2로 업그레이드 
+wsl version 2 에서 도커 환경 설정 값이 달라짐 
+Expose daemon on tcp://localhost:2375 사용하지 않고 
 Use the WSL 2 based engine 사용하고 WSL INTEGRATION enable 해야됨
->>> DOCKER_HOST 환경변수 설정하면 접속 못함
->>> DOCKER_HOST_IP=$(ip route get 8.8.8.8 | awk '{print $(NF-2); exit}') 로 설정해야됨
+DOCKER_HOST 환경변수 설정하면 접속 못함
+DOCKER_HOST_IP=$(ip route get 8.8.8.8 | awk '{print $(NF-2); exit}') 로 설정해야됨
 
-19. wsl2 ubuntu 에서 gradle docker-compose plugin 으로 component test 실행 시
-network 대역 문제로 tcp port open wait 하면 진행되지 않으므로 해당 옵션을 false 로 변경 
+19. wsl2 ubuntu 에서 gradle docker-compose plugin 으로 integration test / 
+component test 실행 시 network 대역 문제로 tcp port open wait 하면 진행되지 않으므로 
+해당 옵션을 false 로 변경 
         // skip waiting for tcp port open
         waitForTcpPorts = false
 
@@ -90,3 +91,15 @@ DOCKER_USER_ID=??? DOCKER_PASSWORD=??? ./publish-docker-image.sh
 
 24. integrationTest 시 gradlew :ftgo-order-service:integrationTest, 
 gradlew :ftgo-order-history-service:integrationTest 실행 후 docker-compose down -v 로 도커 이미지를 내린다
+
+25. 쿠버네티스 가동 시 메모리가 부족해지므로 우분투에 아래와 같이 조치하여 
+쿠버네티스 가동 정지 후 drop_cache 한다
+create this alias at the end of your ~/.bashrc file
+
+alias drop_cache="sudo sh -c \"echo 3 >'/proc/sys/vm/drop_caches' && swapoff -a && swapon -a && printf '\n%s\n' 'Ram-cache and Swap Cleared'\""
+
+run: source ~/.bashrc in your shell to setup the alias
+
+then you can run the drop_cache command when you need it
+
+You can run it manually when you notice high memory usage or you can try to create a crontab job
